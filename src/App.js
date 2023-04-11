@@ -5,7 +5,7 @@ import "./App.css";
 import ActionProvider from "./ActionProvider";
 import MessageParser from "./MessageParser";
 import config from "./config";
-const { Kafka } = require('kafkaasdaaddjs');
+const { Kafka } = require('kafkajs');
 
 const kafka = new Kafka({
   clientId: 'my-app',
