@@ -1,4 +1,4 @@
-import { getProducer } from "./App";
+const { default: axios } = require("axios");
 
 // MessageParser starter code in MessageParser.js
 class MessageParser {
@@ -16,15 +16,12 @@ class MessageParser {
     
     else{
       try{
-        this.actionProvider.handle(lowerCaseMessage);
-        const producer = await getProducer();
-        await producer.send({
-          topic: 'chatbot-messages',
-          messages: [{ value: lowerCaseMessage }]
-        });
-        console.log('Sent message to Kafka topic');
-        await this.actionProvider.handle(lowerCaseMessage);
+        const res = await axios.post("http://localhost:5000/weather", {location: lowerCaseMessage})
+        console.log(res.data.message)
+        console.log("sending message")
+        await this.actionProvider.handle(res.data.message)
       }catch(err){
+        await this.actionProvider.handle("Invalid location")
         console.log(err)
       }
     }

@@ -1,5 +1,3 @@
-import { getConsumer } from "./App";
-
 class ActionProvider {
   constructor(createChatBotMessage, setStateFunc) {
     this.createChatBotMessage = createChatBotMessage;
@@ -12,20 +10,9 @@ class ActionProvider {
     this.updateChatbotState(greetingMessage);
   }
 
-  handle = async(msgs) => {
-    this.updateChatbotState(msgs);
+  handle = (msgs) => {
 
-    const consumer = await getConsumer();
-    await consumer.run({
-      eachMessage: async ({ topic, partition, message }) => {
-        console.log('Received message:', message.value.toString());
-        const msg = this.createChatBotMessage(
-          message.value.toString()
-        );
-        
-        this.updateChatbotState(msg);
-      }
-    });
+    this.updateChatbotState(this.createChatBotMessage(msgs));
    
   }
 
